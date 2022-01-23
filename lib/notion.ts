@@ -20,7 +20,17 @@ export async function fetchDatabase(databaseId: string) {
     const res = await notionOfficialClient.databases.query({
       database_id: databaseId,
       page_size: 100,
-      start_cursor: cursor
+      start_cursor: cursor,
+      sorts: [
+        {
+          property: 'Category',
+          direction: 'ascending'
+        },
+        {
+          property: 'Index',
+          direction: 'ascending'
+        }
+      ]
     })
 
     result.push(...res.results)
