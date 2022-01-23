@@ -7,7 +7,10 @@ export const getStaticProps = async () => {
   try {
     const props = await resolveNotionPage(config.domain)
 
-    return { props }
+    return {
+      props,
+      revalidate: process.env.PREVIEW === 'true' ? 10 : undefined
+    }
   } catch (err) {
     console.error('page error', config.domain, err)
 
