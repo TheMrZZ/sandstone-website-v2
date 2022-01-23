@@ -1,5 +1,6 @@
 import { SideBarItems } from 'lib/types'
 import { uuidToId } from 'notion-utils'
+import { config } from 'lib/config'
 import React from 'react'
 import { cs } from 'react-notion-x'
 import { DarkMode } from 'use-dark-mode'
@@ -8,17 +9,18 @@ function createItem({
   id,
   pageId,
   level,
-  text
+  text, to
 }: {
   id: string
   pageId: string
   level: number
   text: string
+  to: string
 }) {
   return (
     <a
       key={id}
-      href={`/${id}`}
+      href={`/${to.toLowerCase().replaceAll(' ', '-')}${config.isDev ? '-' + uuidToId(id) : ''}`}
       className={cs(
         'notion-table-of-contents-item',
         `notion-table-of-contents-item-indent-level-${level}`,
@@ -78,14 +80,16 @@ export const SideBar: React.FC<{
               id: pagesByCategory[category][0].id,
               pageId: '',
               level: 0,
-              text: category.slice(4)
+              text: category.slice(4),
+              to: pagesByCategory[category][0].properties.Page.title[0].plain_text
             }),
             ...pagesByCategory[category].map((item) => {
               return createItem({
                 id: item.id,
                 pageId,
                 level: 1,
-                text: `${item.icon.emoji} ${item.properties.Page.title[0].plain_text}`
+                text: `${item.icon.emoji} ${item.properties.Page.title[0].plain_text}`,
+                to: item.properties.Page.title[0].plain_text
               })
             })
           ]
