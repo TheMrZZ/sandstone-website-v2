@@ -9,7 +9,7 @@ export const getStaticProps = async () => {
 
     return {
       props,
-      revalidate: process.env.PREVIEW === 'true' ? 10 : undefined
+      revalidate: process.env.PREVIEW === 'true' ? 1 : undefined
     }
   } catch (err) {
     console.error('page error', config.domain, err)
