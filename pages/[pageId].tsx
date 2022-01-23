@@ -50,7 +50,7 @@ export async function getStaticPaths() {
       }))
     ),
     // paths: [],
-    fallback: false
+    fallback: 'blocking'
   }
 
   console.log(ret.paths)
