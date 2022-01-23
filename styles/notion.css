@@ -345,3 +345,9 @@ span.notion-page-icon {
   border-image: linear-gradient(90.68deg, #b439df 0.26%, #e5337e 102.37%);
   border-image-slice: 1;
 }
+
+/* Removes some WTF weird shadows */
+pre[class*=language-]:after, pre[class*=language-]:before {
+  display: none;
+  box-shadow: none;
+}
