@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FaTwitter, FaGithub, FaLinkedin } from 'react-icons/fa'
+import { FaTwitter, FaGithub, FaLinkedin, FaDiscord } from 'react-icons/fa'
 import { IoSunnyOutline, IoMoonSharp } from 'react-icons/io5'
 import { config } from 'lib/config'
 
@@ -64,6 +64,16 @@ export const Footer: React.FC<{
             <FaGithub />
           </a>
         )}
+
+        <a
+          className={styles.discord}
+          href={`https://discord.gg/28SvqNsbFB`}
+          title={`Sandstone's Discord`}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <FaDiscord />
+        </a>
 
         {config.linkedin && (
           <a
