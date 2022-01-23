@@ -239,7 +239,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
                 href,
                 as,
                 passHref,
-                prefetch,
                 replace,
                 scroll,
                 shallow,
@@ -250,7 +249,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
                   href={href}
                   as={as}
                   passHref={passHref}
-                  prefetch={prefetch}
                   replace={replace}
                   scroll={scroll}
                   shallow={shallow}

@@ -4,6 +4,7 @@ import { config } from 'lib/config'
 import React from 'react'
 import { cs } from 'react-notion-x'
 import { DarkMode } from 'use-dark-mode'
+import Link from 'next/link'
 
 function createItem({
   id,
@@ -19,32 +20,35 @@ function createItem({
   to: string
 }) {
   return (
-    <a
-      key={id}
+    <Link
       href={`/${to.toLowerCase().replace(/ /g, '-')}${
         config.isDev ? '-' + uuidToId(id) : ''
       }`}
-      className={cs(
-        'notion-table-of-contents-item',
-        `notion-table-of-contents-item-indent-level-${level}`,
-        uuidToId(pageId) === uuidToId(id) &&
-          'notion-table-of-contents-active-item'
-      )}
-      style={{
-        fontSize: '1em',
-        color: 'var(--fg-color)'
-      }}
+      key={id}
     >
-      <span
-        className='notion-table-of-contents-item-body'
+      <a
+        className={cs(
+          'notion-table-of-contents-item',
+          `notion-table-of-contents-item-indent-level-${level}`,
+          uuidToId(pageId) === uuidToId(id) &&
+            'notion-table-of-contents-active-item'
+        )}
         style={{
-          display: 'inline-block',
-          marginLeft: level * 16
+          fontSize: '1em',
+          color: 'var(--fg-color)'
         }}
       >
-        {text}
-      </span>
-    </a>
+        <span
+          className='notion-table-of-contents-item-body'
+          style={{
+            display: 'inline-block',
+            marginLeft: level * 16
+          }}
+        >
+          {text}
+        </span>
+      </a>
+    </Link>
   )
 }
 

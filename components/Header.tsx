@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import * as React from 'react'
 import { FaBars } from 'react-icons/fa'
 
@@ -38,27 +39,30 @@ export const Header: React.FC<{
             }}
           />
         )}
-        <a
-          href='/'
-          style={{
-            display: 'flex',
-            flexFlow: 'row nowrap',
-            alignItems: 'center',
-            fontWeight: 'bold',
-            paddingRight: '20px'
-          }}
-        >
-          <img
+        <Link href='/'>
+          <a
             style={{
-              width: '50px',
-              paddingRight: '10px'
+              display: 'flex',
+              flexFlow: 'row nowrap',
+              alignItems: 'center',
+              fontWeight: 'bold',
+              paddingRight: '20px'
             }}
-            src='/logo.png'
-          ></img>
-          Sandstone
-        </a>
+          >
+            <img
+              style={{
+                width: '50px',
+                paddingRight: '10px'
+              }}
+              src='/logo.png'
+            ></img>
+            Sandstone
+          </a>
+        </Link>
 
-        <a href='/introduction'>Documentation</a>
+        <Link href='/introduction'>
+          <a>Documentation</a>
+        </Link>
       </div>
     </header>
   )
