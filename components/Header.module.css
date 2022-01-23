@@ -1,0 +1,9 @@
+@media (min-width: 1300px) and (min-height: 300px) {
+  #hamburger-menu-icon {
+    display: none;
+  }
+}
+
+#hamburger-menu-icon {
+  display: none;
+}

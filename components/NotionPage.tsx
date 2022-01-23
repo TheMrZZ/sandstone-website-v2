@@ -13,6 +13,8 @@ import { PageBlock } from 'notion-types'
 import { getBlockTitle } from 'notion-utils'
 import * as React from 'react'
 import BodyClassName from 'react-body-classname'
+import { slide as BurgerMenu } from 'react-burger-menu'
+import { FaTimes } from 'react-icons/fa'
 // core notion renderer
 import { Code, Collection, CollectionRow, NotionRenderer } from 'react-notion-x'
 import { useSearchParam } from 'react-use'
@@ -78,7 +80,9 @@ export const NotionPage: React.FC<types.PageProps> = ({
   const isLiteMode = lite === 'true'
   const searchParams = new URLSearchParams(params)
 
-  const darkMode = useDarkMode(false, { classNameDark: 'dark-mode' })
+  const darkMode = useDarkMode(true, { classNameDark: 'dark-mode' })
+
+  const [isBurgerMenuOpen, setIsBurgerMenuOpen] = React.useState(false)
 
   if (router.isFallback) {
     return <Loading />
@@ -123,6 +127,10 @@ export const NotionPage: React.FC<types.PageProps> = ({
   let comments: React.ReactNode = null
   let pageAside: React.ReactChild = null
 
+  const navigationMenu = (
+    <SideBar sideBar={sideBar} darkMode={darkMode} pageId={pageId}></SideBar>
+  )
+
   // only display comments and page actions on blog post pages
   if (isBlogPost) {
     if (config.utterancesGitHubRepo) {
@@ -136,9 +144,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
       )
     }
 
-    pageAside = (
-      <SideBar sideBar={sideBar} darkMode={darkMode} pageId={pageId}></SideBar>
-    )
+    pageAside = navigationMenu
   } else {
     pageAside = <PageSocial />
   }
@@ -191,67 +197,101 @@ export const NotionPage: React.FC<types.PageProps> = ({
 
       {isLiteMode && <BodyClassName className='notion-lite' />}
 
-      <NotionRenderer
-        bodyClassName={cs(
-          styles.notion,
-          pageId === site.rootNotionPageId && 'index-page'
-        )}
-        components={{
-          pageLink: ({
-            href,
-            as,
-            passHref,
-            prefetch,
-            replace,
-            scroll,
-            shallow,
-            locale,
-            ...props
-          }) => (
-            <Link
-              href={href}
-              as={as}
-              passHref={passHref}
-              prefetch={prefetch}
-              replace={replace}
-              scroll={scroll}
-              shallow={shallow}
-              locale={locale}
-            >
-              <a {...props} />
-            </Link>
-          ),
-          code: Code,
-          collection: Collection,
-          collectionRow: CollectionRow,
-          modal: Modal,
-          equation: Equation
-        }}
-        recordMap={recordMap}
-        rootPageId={site.rootNotionPageId}
-        fullPage={!isLiteMode}
-        darkMode={darkMode.value}
-        previewImages={site.previewImages !== false}
-        showCollectionViewDropdown={false}
-        showTableOfContents={false}
-        minTableOfContentsItems={minTableOfContentsItems}
-        defaultPageIcon={config.defaultPageIcon}
-        defaultPageCover={config.defaultPageCover}
-        defaultPageCoverPosition={config.defaultPageCoverPosition}
-        mapPageUrl={siteMapPageUrl}
-        mapImageUrl={mapNotionImageUrl}
-        pageFooter={comments}
-        pageAside={pageAside}
-        header={Header}
-        footer={
-          <Footer
-            isDarkMode={darkMode.value}
-            toggleDarkMode={darkMode.toggle}
-          />
-        }
-      />
+      <div id='outer-container'>
+        <BurgerMenu
+          pageWrapId={'page-wrap'}
+          outerContainerId={'outer-container'}
+          width={'250px'}
+          isOpen={isBurgerMenuOpen}
+          customBurgerIcon={false}
+          onOpen={() => setIsBurgerMenuOpen(true)}
+          onClose={() => setIsBurgerMenuOpen(false)}
+          styles={{
+            bmCrossButton: {
+              width: '12px'
+            }
+          }}
+          customCrossIcon={<FaTimes fill='var(--fg-color)' />}
+        >
+          <div
+            className='cross-button'
+            style={{
+              height: '100%',
+              background: 'var(--bg-color-1)',
+              color: 'var(--fg-color)',
+              padding: '10px',
+              paddingTop: '2rem',
+              fontSize: '1rem'
+            }}
+          >
+            {navigationMenu}
+          </div>
+        </BurgerMenu>
 
-      <GitHubShareButton />
+        <div id='page-wrap'>
+          <NotionRenderer
+            bodyClassName={cs(
+              styles.notion,
+              pageId === site.rootNotionPageId && 'index-page'
+            )}
+            components={{
+              pageLink: ({
+                href,
+                as,
+                passHref,
+                prefetch,
+                replace,
+                scroll,
+                shallow,
+                locale,
+                ...props
+              }) => (
+                <Link
+                  href={href}
+                  as={as}
+                  passHref={passHref}
+                  prefetch={prefetch}
+                  replace={replace}
+                  scroll={scroll}
+                  shallow={shallow}
+                  locale={locale}
+                >
+                  <a {...props} />
+                </Link>
+              ),
+              code: Code,
+              collection: Collection,
+              collectionRow: CollectionRow,
+              modal: Modal,
+              equation: Equation
+            }}
+            recordMap={recordMap}
+            rootPageId={site.rootNotionPageId}
+            fullPage={!isLiteMode}
+            darkMode={darkMode.value}
+            previewImages={site.previewImages !== false}
+            showCollectionViewDropdown={false}
+            showTableOfContents={false}
+            minTableOfContentsItems={minTableOfContentsItems}
+            defaultPageIcon={config.defaultPageIcon}
+            defaultPageCover={config.defaultPageCover}
+            defaultPageCoverPosition={config.defaultPageCoverPosition}
+            mapPageUrl={siteMapPageUrl}
+            mapImageUrl={mapNotionImageUrl}
+            pageFooter={comments}
+            pageAside={pageAside}
+            header={(props: any) => Header({ ...props, setIsBurgerMenuOpen })}
+            footer={
+              <Footer
+                isDarkMode={darkMode.value}
+                toggleDarkMode={darkMode.toggle}
+              />
+            }
+          />
+
+          <GitHubShareButton />
+        </div>
+      </div>
     </>
   )
 }

@@ -29,6 +29,8 @@ class Config {
 
   inversePageUrlOverrides = invertPageUrlOverrides(this.pageUrlOverrides)
 
+  fontFamily = getSiteConfig('fontFamily', null as string | undefined)
+
   pageUrlAdditions = cleanPageUrlMap(
     getSiteConfig('pageUrlAdditions', {}) || {},
     'pageUrlAdditions'

@@ -9,7 +9,8 @@ function createItem({
   id,
   pageId,
   level,
-  text, to
+  text,
+  to
 }: {
   id: string
   pageId: string
@@ -20,13 +21,19 @@ function createItem({
   return (
     <a
       key={id}
-      href={`/${to.toLowerCase().replace(/ /g, '-')}${config.isDev ? '-' + uuidToId(id) : ''}`}
+      href={`/${to.toLowerCase().replace(/ /g, '-')}${
+        config.isDev ? '-' + uuidToId(id) : ''
+      }`}
       className={cs(
         'notion-table-of-contents-item',
         `notion-table-of-contents-item-indent-level-${level}`,
         uuidToId(pageId) === uuidToId(id) &&
           'notion-table-of-contents-active-item'
       )}
+      style={{
+        fontSize: '1em',
+        color: 'var(--fg-color)'
+      }}
     >
       <span
         className='notion-table-of-contents-item-body'
@@ -63,8 +70,15 @@ export const SideBar: React.FC<{
 
   return (
     <div className='notion-aside-table-of-contents'>
-      <div className='notion-aside-table-of-contents-header'>
-        Table of Contents
+      <div
+        className='notion-aside-table-of-contents-header'
+        style={{
+          textTransform: 'none',
+          fontSize: '1.3em',
+          marginBottom: '1em'
+        }}
+      >
+        Navigation
       </div>
 
       <nav
@@ -81,7 +95,8 @@ export const SideBar: React.FC<{
               pageId: '',
               level: 0,
               text: category.slice(4),
-              to: pagesByCategory[category][0].properties.Page.title[0].plain_text
+              to: pagesByCategory[category][0].properties.Page.title[0]
+                .plain_text
             }),
             ...pagesByCategory[category].map((item) => {
               return createItem({

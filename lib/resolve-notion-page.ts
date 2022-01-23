@@ -70,7 +70,14 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
     pageId = site.rootNotionPageId
 
     console.log(site)
-    recordMap = await notion.getPage(pageId)
+
+    const resources = await Promise.all([
+      notion.getPage(pageId),
+      fetchDatabase(config.pagesDatabaseId)
+    ])
+
+    recordMap = resources[0]
+    sideBar = resources[1]
   }
 
   const props = { site, recordMap, pageId, sideBar }

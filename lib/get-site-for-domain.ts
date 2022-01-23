@@ -8,6 +8,7 @@ export const getSiteForDomain = (domain: string): types.Site | null => {
     rootNotionPageId: config.rootNotionPageId,
     rootNotionSpaceId: config.rootNotionSpaceId,
     pagesDatabaseId: config.pagesDatabaseId,
-    description: config.description
+    description: config.description,
+    fontFamily: config.fontFamily
   } as types.Site
 }

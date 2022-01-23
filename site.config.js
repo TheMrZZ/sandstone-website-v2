@@ -8,6 +8,8 @@ module.exports = {
   // (this should be a Notion ID; see the docs for how to extract this)
   rootNotionSpaceId: null,
 
+  fontFamily: undefined,
+
   // basic site info (required)
   name: 'Sandstone',
   domain: 'sandstone.dev',
