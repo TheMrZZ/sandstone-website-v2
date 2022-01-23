@@ -353,7 +353,9 @@ pre[class*=language-]:after, pre[class*=language-]:before {
 }
 
 /* Put navbar to the left */
-.notion-page-content-has-aside{
-  align-self: flex-end;
-  flex-direction: row-reverse;
+@media (min-width: 1300px) and (min-height: 300px) {
+  .notion-page-content-has-aside{
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
 }
