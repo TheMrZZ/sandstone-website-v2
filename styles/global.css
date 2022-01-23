@@ -22,3 +22,14 @@ body {
 .utterances {
   max-width: 100% !important;
 }
+
+#hamburger-menu-icon {
+  display: block;
+}
+
+
+@media (min-width: 1300px) and (min-height: 300px) {
+  #hamburger-menu-icon {
+    display: none;
+  }
+}
