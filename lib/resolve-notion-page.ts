@@ -1,7 +1,7 @@
 import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
 import { getSiteMaps } from './get-site-maps'
-import { fetchDatabase, notion, notionOfficialClient } from './notion'
+import { fetchDatabase, notion } from './notion'
 
 const { pageUrlAdditions, pageUrlOverrides } = config
 

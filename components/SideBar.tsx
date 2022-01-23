@@ -5,6 +5,7 @@ import React from 'react'
 import { cs } from 'react-notion-x'
 import { DarkMode } from 'use-dark-mode'
 import Link from 'next/link'
+import Image from 'next/image'
 
 function createItem({
   id,
@@ -16,7 +17,7 @@ function createItem({
   id: string
   pageId: string
   level: number
-  text: string
+  text: string | React.ReactElement
   to: string
 }) {
   return (
@@ -49,6 +50,36 @@ function createItem({
         </span>
       </a>
     </Link>
+  )
+}
+
+function textWithIcon(
+  icon:
+    | { type: 'emoji'; emoji: string }
+    | { type: 'file'; file: { url: string } },
+  text: string
+) {
+  if (icon.type === 'emoji') {
+    return `${icon.emoji} ${text}`
+  }
+
+  return (
+    <span
+      style={{
+        display: 'flex',
+        alignItems: 'center'
+      }}
+    >
+      <Image src={icon.file.url} width={20} height={20} />
+      <span
+        style={{
+          height: '100%',
+          paddingLeft: '0.4em'
+        }}
+      >
+        {text}
+      </span>
+    </span>
   )
 }
 
@@ -107,7 +138,10 @@ export const SideBar: React.FC<{
                 id: item.id,
                 pageId,
                 level: 1,
-                text: `${item.icon.emoji} ${item.properties.Page.title[0].plain_text}`,
+                text: textWithIcon(
+                  item.icon,
+                  item.properties.Page.title[0].plain_text
+                ),
                 to: item.properties.Page.title[0].plain_text
               })
             })

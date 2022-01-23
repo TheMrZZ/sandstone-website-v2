@@ -23,8 +23,14 @@ export interface PageProps {
 export type SideBarItems = {
   id: string
   url: string
-  icon: {
+  icon:
+  | {
+    type: 'emoji'
     emoji: string
+  }
+  | {
+    type: 'file'
+    file: { url: string }
   }
   properties: {
     Index: {
