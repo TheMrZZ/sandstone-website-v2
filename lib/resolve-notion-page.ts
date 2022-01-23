@@ -5,7 +5,7 @@ import { config } from './config'
 import { fetchDatabase } from './fetchDatabase'
 import { getSiteForDomain } from './get-site-for-domain'
 import { getSiteMaps } from './get-site-maps'
-import { getPage } from './notion'
+import { notion } from './notion'
 import * as types from './types'
 
 const { pageUrlAdditions, pageUrlOverrides } = config
@@ -32,7 +32,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
 
     if (pageId) {
       const resources = await Promise.all([
-        getPage(pageId),
+        notion.getPage(pageId),
         fetchDatabase(config.pagesDatabaseId)
       ])
 
@@ -51,7 +51,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
         // site = await getSiteForDomain(domain)
         // recordMap = siteMap.pageMap[pageId]
         const resources = await Promise.all([
-          getPage(pageId),
+          notion.getPage(pageId),
           fetchDatabase(config.pagesDatabaseId)
         ])
 
@@ -70,7 +70,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
     pageId = site.rootNotionPageId
 
     console.log(site)
-    recordMap = await getPage(pageId)
+    recordMap = await notion.getPage(pageId)
   }
 
   const props = { site, recordMap, pageId, sideBar }

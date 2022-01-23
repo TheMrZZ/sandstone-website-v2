@@ -93,13 +93,6 @@ class Config {
   port = getEnv('PORT', '3000')
   host = this.isDev ? `http://localhost:${this.port}` : `https://${this.domain}`
 
-  apiBaseUrl = `${this.host}/api`
-
-  api = {
-    createPreviewImage: `${this.apiBaseUrl}/create-preview-image`,
-    searchNotion: `${this.apiBaseUrl}/search-notion`
-  }
-
   // ----------------------------------------------------------------------------
 
   fathomId = this.isDev ? null : process.env.NEXT_PUBLIC_FATHOM_ID

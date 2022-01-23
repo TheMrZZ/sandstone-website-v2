@@ -1,6 +1,6 @@
 import { parsePageId, getPageTitle } from 'notion-utils'
-import { getPage } from './notion'
 import { config } from './config'
+import { notion } from './notion'
 
 export const oembed = async ({
   url,
@@ -21,7 +21,7 @@ export const oembed = async ({
 
   // TODO: handle errors gracefully
 
-  const page = await getPage(pageId)
+  const page = await notion.getPage(pageId)
   const pageTitle = getPageTitle(page)
   if (pageTitle) title = pageTitle
 

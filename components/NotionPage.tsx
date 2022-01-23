@@ -3,7 +3,6 @@ import { config } from 'lib/config'
 import { getPageDescription } from 'lib/get-page-description'
 import { mapNotionImageUrl } from 'lib/map-image-url'
 import { getCanonicalPageUrl, mapPageUrl } from 'lib/map-page-url'
-import { searchNotion } from 'lib/search-notion'
 import * as types from 'lib/types'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -241,7 +240,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
         defaultPageCoverPosition={config.defaultPageCoverPosition}
         mapPageUrl={siteMapPageUrl}
         mapImageUrl={mapNotionImageUrl}
-        searchNotion={searchNotion}
         pageFooter={comments}
         pageAside={pageAside}
         header={Header}
