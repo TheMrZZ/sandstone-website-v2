@@ -1,7 +1,7 @@
 import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
 import { getSiteMaps } from './get-site-maps'
-import { notion, notionOfficialClient } from './notion'
+import { fetchDatabase, notion, notionOfficialClient } from './notion'
 
 const { pageUrlAdditions, pageUrlOverrides } = config
 
@@ -29,9 +29,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
 
   const [recordMap, sideBar] = await Promise.all([
     notion.getPage(pageId),
-    notionOfficialClient.databases.retrieve({
-      database_id: config.pagesDatabaseId
-    })
+    fetchDatabase(site.pagesDatabaseId)
   ])
 
   return { site, recordMap, pageId, sideBar }

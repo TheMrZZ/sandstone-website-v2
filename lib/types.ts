@@ -1,6 +1,11 @@
 import { ExtendedRecordMap, PageMap } from 'notion-types'
+import type { Client } from '@notionhq/client/build/src'
 
 export * from 'notion-types'
+
+export type NotionDatabasePages = Awaited<
+  ReturnType<Client['databases']['query']>
+>['results']
 
 export interface PageError {
   message?: string
