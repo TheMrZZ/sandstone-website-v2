@@ -22,9 +22,8 @@ function createItem({
 }) {
   return (
     <Link
-      href={`/${to.toLowerCase().replace(/ /g, '-')}${
-        config.isDev ? '-' + uuidToId(id) : ''
-      }`}
+      href={`/${to.toLowerCase().replace(/ /g, '-')}${config.isDev ? '-' + uuidToId(id) : ''
+        }`}
       key={id}
     >
       <a
@@ -32,7 +31,7 @@ function createItem({
           'notion-table-of-contents-item',
           `notion-table-of-contents-item-indent-level-${level}`,
           uuidToId(pageId) === uuidToId(id) &&
-            'notion-table-of-contents-active-item'
+          'notion-table-of-contents-active-item'
         )}
         style={{
           fontSize: '1em',
@@ -55,10 +54,15 @@ function createItem({
 
 function textWithIcon(
   icon:
+    | null
     | { type: 'emoji'; emoji: string }
     | { type: 'file'; file: { url: string } },
   text: string
 ) {
+  if (!icon) {
+    return text
+  }
+
   if (icon.type === 'emoji') {
     return `${icon.emoji} ${text}`
   }
