@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@google-cloud/firestore": "^5.0.2",
+    "@notionhq/client": "^0.4.12",
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",
     "fathom-client": "^3.3.1",
