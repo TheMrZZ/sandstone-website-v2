@@ -20,7 +20,7 @@ function createItem({
   return (
     <a
       key={id}
-      href={`/${to.toLowerCase().replaceAll(' ', '-')}${config.isDev ? '-' + uuidToId(id) : ''}`}
+      href={`/${to.toLowerCase().replace(/ /g, '-')}${config.isDev ? '-' + uuidToId(id) : ''}`}
       className={cs(
         'notion-table-of-contents-item',
         `notion-table-of-contents-item-indent-level-${level}`,
