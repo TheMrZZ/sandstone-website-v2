@@ -24,7 +24,10 @@ export const mapNotionImageUrl = (
   }
 
   // If it's from AWS, map it to our own server
-  if (url.startsWith('https://www.notion.so') || url.startsWith('https://s3')) {
+  if (
+    url.startsWith('https://www.notion.so') ||
+    url.includes('amazonaws.com')
+  ) {
     const path = '/images/' + getImageIdFromUrl(url)
 
     return path
