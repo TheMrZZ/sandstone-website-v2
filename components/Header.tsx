@@ -1,6 +1,8 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import * as React from 'react'
 import { FaBars } from 'react-icons/fa'
+import Logo from 'public/logo.png'
 
 export const Header: React.FC<{
   setIsBurgerMenuOpen: (cb: (isOpen: boolean) => boolean) => void
@@ -36,15 +38,14 @@ export const Header: React.FC<{
               paddingRight: '20px'
             }}
           >
-            <img
+            <Image width={40} height={40} src={Logo} />
+            <span
               style={{
-                width: '50px',
-                paddingRight: '10px'
+                marginLeft: 10
               }}
-              width={50}
-              src='/logo.png'
-            ></img>
-            Sandstone
+            >
+              Sandstone
+            </span>
           </a>
         </Link>
 
