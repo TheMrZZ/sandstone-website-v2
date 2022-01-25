@@ -23,8 +23,9 @@ function createItem({
 }) {
   return (
     <Link
-      href={`/${to.toLowerCase().replace(/ /g, '-')}${config.isDev ? '-' + uuidToId(id) : ''
-        }`}
+      href={`/${to.toLowerCase().replace(/ /g, '-')}${
+        config.isDev ? '-' + uuidToId(id) : ''
+      }`}
       key={id}
     >
       <a
@@ -32,7 +33,7 @@ function createItem({
           'notion-table-of-contents-item',
           `notion-table-of-contents-item-indent-level-${level}`,
           uuidToId(pageId) === uuidToId(id) &&
-          'notion-table-of-contents-active-item'
+            'notion-table-of-contents-active-item'
         )}
         style={{
           fontSize: '1em',

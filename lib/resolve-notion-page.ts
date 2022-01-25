@@ -1,9 +1,7 @@
-import path from 'path'
 import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
 import { getSiteMaps } from './get-site-maps'
-import { mapNotionImageUrl } from './map-image-url'
-import { downloadFile, fetchDatabase, notion } from './notion'
+import { fetchDatabase, notion } from './notion'
 
 const { pageUrlAdditions, pageUrlOverrides } = config
 

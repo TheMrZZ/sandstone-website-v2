@@ -194,13 +194,12 @@ export const NotionPage: React.FC<types.PageProps> = ({
         <title>{title}</title>
       </Head>
 
-
       <style jsx global>{`
-          :global(html) {
-            font-size: 10px;
-            background: ${darkMode.value ? '#2f3437' : '#fff'};
-          }
-        `}</style>
+        :global(html) {
+          font-size: 10px;
+          background: ${darkMode.value ? '#2f3437' : '#fff'};
+        }
+      `}</style>
 
       <CustomFont site={site} />
 
