@@ -13,4 +13,15 @@ module.exports = withBundleAnalyzer({
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+
+  webpack(config, { isServer }) {
+    if (!isServer) {
+      // Ensure "katex", the equation module, is not included in the client bundle
+      config.module.rules.push({
+        test: /katex/,
+        use: "null-loader",
+      })
+    }
+    return config
+  },
 })
