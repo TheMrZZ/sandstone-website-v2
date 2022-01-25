@@ -1,7 +1,7 @@
 import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
 import { getSiteMaps } from './get-site-maps'
-import { fetchDatabase, notion } from './notion'
+import { downloadImage, fetchDatabase, notion } from './notion'
 
 const { pageUrlAdditions, pageUrlOverrides } = config
 
@@ -31,6 +31,16 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
     notion.getPage(pageId),
     fetchDatabase(site.pagesDatabaseId)
   ])
+
+  await Promise.all(
+    sideBar.map(async (item) => {
+      if (item.icon.type === 'file') {
+        await downloadImage(item.icon.file.url, './public/images/' + item.id)
+
+        item.icon.file.url = '/images/' + item.id
+      }
+    })
+  )
 
   return { site, recordMap, pageId, sideBar }
 }

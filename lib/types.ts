@@ -24,14 +24,14 @@ export type SideBarItems = {
   id: string
   url: string
   icon:
-  | {
-    type: 'emoji'
-    emoji: string
-  }
-  | {
-    type: 'file'
-    file: { url: string }
-  }
+    | {
+        type: 'emoji'
+        emoji: string
+      }
+    | {
+        type: 'file'
+        file: { url: string }
+      }
   properties: {
     Index: {
       id: string

@@ -1,11 +1,9 @@
+import { Client } from '@notionhq/client'
+import fs from 'fs'
+import https from 'https'
 import { NotionAPI } from 'notion-client'
 import { SearchParams, SearchResults } from 'notion-types'
-import { Client } from '@notionhq/client'
 import { SideBarItems } from './types'
-
-import https from 'https'
-import fs from 'fs'
-import { Transform as TransformStream } from 'stream'
 
 export const notion = new NotionAPI({
   apiBaseUrl: process.env.NOTION_API_BASE_URL
@@ -49,4 +47,27 @@ export async function fetchDatabase(databaseId: string): Promise<SideBarItems> {
 
 export async function search(params: SearchParams): Promise<SearchResults> {
   return notion.search(params)
+}
+
+export async function downloadImage(url: string, filepath: string) {
+  if (fs.existsSync(filepath)) {
+    return Promise.resolve(filepath)
+  }
+
+  return new Promise<string>((resolve, reject) => {
+    https.get(url, (res) => {
+      if (res.statusCode === 200) {
+        res
+          .pipe(fs.createWriteStream(filepath))
+          .on('error', reject)
+          .once('close', () => resolve(filepath))
+      } else {
+        // Consume response data to free up memory
+        res.resume()
+        reject(
+          new Error(`Request Failed With a Status Code: ${res.statusCode}`)
+        )
+      }
+    })
+  })
 }
