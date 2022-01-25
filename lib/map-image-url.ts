@@ -20,7 +20,15 @@ export const mapNotionImageUrl = (
   // const origUrl = url
 
   if (url.startsWith('/images')) {
-    url = `https://www.notion.so${url}`
+    return url
+  }
+
+  // If it's from AWS, map it to our own server
+  if (url.startsWith('https://www.notion.so') || url.startsWith('https://s3')) {
+    const path = '/images/' + getImageIdFromUrl(url)
+
+    // Start the download. By the time someone actually visit the website, the image will be there!
+    return path
   }
 
   // more recent versions of notion don't proxy unsplash images
@@ -56,4 +64,9 @@ export const mapImageUrl = (imageUrl: string) => {
   } else {
     return imageUrl
   }
+}
+
+export const getImageIdFromUrl = (url: string): string => {
+  // Get the before-the-last element
+  return new URL(url).pathname.split('/').slice(-2, -1)[0]
 }
