@@ -27,7 +27,6 @@ export const mapNotionImageUrl = (
   if (url.startsWith('https://www.notion.so') || url.startsWith('https://s3')) {
     const path = '/images/' + getImageIdFromUrl(url)
 
-    // Start the download. By the time someone actually visit the website, the image will be there!
     return path
   }
 
@@ -68,5 +67,21 @@ export const mapImageUrl = (imageUrl: string) => {
 
 export const getImageIdFromUrl = (url: string): string => {
   // Get the before-the-last element
-  return new URL(url).pathname.split('/').slice(-2, -1)[0]
+  try {
+    return new URL(url).pathname.split('/').slice(-2, -1)[0]
+  } catch (e) {
+    console.log('='.repeat(20))
+    console.log(url)
+    console.log('='.repeat(20))
+  }
+}
+
+export const isValidUrl = (url: string) => {
+  try {
+    // eslint-disable-next-line no-new
+    new URL(url)
+    return true
+  } catch (err) {
+    return false
+  }
 }

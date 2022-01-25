@@ -9,7 +9,8 @@
 /coverage
 
 # Page images
-/public/images/**/*
+/public/images/*
+!public/images/
 
 # next.js
 /.next/
