@@ -6,6 +6,7 @@ import { cs } from 'react-notion-x'
 import { DarkMode } from 'use-dark-mode'
 import Link from 'next/link'
 import Image from 'next/image'
+import { mapNotionImageUrl } from 'lib/map-image-url'
 
 function createItem({
   id,
@@ -57,11 +58,17 @@ function textWithIcon(
   icon:
     | { type: 'emoji'; emoji: string }
     | { type: 'file'; file: { url: string } },
-  text: string
+  text: string,
+  id: string
 ) {
   if (icon.type === 'emoji') {
     return `${icon.emoji} ${text}`
   }
+
+  const url = mapNotionImageUrl(icon.file.url, {
+    parent_table: 'collection',
+    id
+  })
 
   return (
     <span
@@ -70,7 +77,7 @@ function textWithIcon(
         alignItems: 'center'
       }}
     >
-      <Image src={icon.file.url} width={20} height={20} />
+      <Image src={url} width={20} height={20} />
       <span
         style={{
           height: '100%',
@@ -140,7 +147,8 @@ export const SideBar: React.FC<{
                 level: 1,
                 text: textWithIcon(
                   item.icon,
-                  item.properties.Page.title[0].plain_text
+                  item.properties.Page.title[0].plain_text,
+                  item.id
                 ),
                 to: item.properties.Page.title[0].plain_text
               })

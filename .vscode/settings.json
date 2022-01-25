@@ -33,5 +33,10 @@
     "**/.now/": true,
     "**/.vercel/": true,
     "**/.google.json": true
-  }
+  },
+  "files.autoSave": "onFocusChange",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
 }

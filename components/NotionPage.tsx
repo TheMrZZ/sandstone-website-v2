@@ -6,6 +6,7 @@ import { getCanonicalPageUrl, mapPageUrl } from 'lib/map-page-url'
 import * as types from 'lib/types'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PageBlock } from 'notion-types'
@@ -261,7 +262,8 @@ export const NotionPage: React.FC<types.PageProps> = ({
               collection: Collection,
               collectionRow: CollectionRow,
               modal: Modal,
-              equation: Equation
+              equation: Equation,
+              image: Image
             }}
             recordMap={recordMap}
             rootPageId={site.rootNotionPageId}

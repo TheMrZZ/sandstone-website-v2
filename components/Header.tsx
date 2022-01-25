@@ -41,6 +41,7 @@ export const Header: React.FC<{
                 width: '50px',
                 paddingRight: '10px'
               }}
+              width={50}
               src='/logo.png'
             ></img>
             Sandstone
