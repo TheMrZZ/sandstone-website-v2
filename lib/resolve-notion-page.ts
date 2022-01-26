@@ -37,16 +37,6 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
   const page = recordMap.block[Object.keys(recordMap.block)[0]]
     .value as Block & { type: 'page' }
 
-  function logImages(blocks: NotionMap<Block>) {
-    for (const [key, { value }] of Object.entries(recordMap.block)) {
-      if (value.type === 'image') {
-        console.log(value)
-      }
-    }
-  }
-
-  logImages(recordMap.block)
-
   const filesToDownload = [
     ...sideBar.map((item) => {
       if (item.icon.type === 'file') {
