@@ -10,7 +10,7 @@
 
 # Page images
 /public/images/*
-!public/images/
+!public/images/dontdeleteme
 
 # next.js
 /.next/

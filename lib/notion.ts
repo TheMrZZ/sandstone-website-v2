@@ -3,7 +3,6 @@ import fs from 'fs'
 import https from 'https'
 import { NotionAPI } from 'notion-client'
 import { SearchParams, SearchResults } from 'notion-types'
-import path from 'path'
 import { SideBarItems } from './types'
 
 export const notion = new NotionAPI({
@@ -54,8 +53,6 @@ export async function downloadImage(url: string, filepath: string) {
   if (fs.existsSync(filepath)) {
     return Promise.resolve(filepath)
   }
-
-  await fs.promises.mkdir(path.dirname(filepath), { recursive: true })
 
   return new Promise<string>((resolve, reject) => {
     https.get(url, (res) => {
