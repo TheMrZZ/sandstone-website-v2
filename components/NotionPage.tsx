@@ -229,7 +229,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
               color: 'var(--fg-color)',
               padding: '10px',
               paddingTop: '2rem',
-              fontSize: '1rem'
+              fontSize: '18px'
             }}
           >
             {navigationMenu}
