@@ -67,7 +67,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
     // Fetch all images
     ...(await Promise.all(
       Object.values(recordMap.block).flatMap(async ({ value }) => {
-        if (value.type === 'image') {
+        if (value?.type === 'image') {
           const url = value.format.display_source
 
           const { signedUrls } = await notion.getSignedFileUrls([
