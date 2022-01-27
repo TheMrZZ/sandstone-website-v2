@@ -1,9 +1,9 @@
-import { Block, NotionMap } from 'notion-types'
+import { Block } from 'notion-types'
 import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
 import { getSiteMaps } from './get-site-maps'
 import { getImageIdFromUrl, isValidUrl } from './map-image-url'
-import { downloadImage, fetchDatabase, notion } from './notion'
+import { uploadImageToS3, fetchDatabase, notion } from './notion'
 
 const { pageUrlAdditions, pageUrlOverrides } = config
 
@@ -37,12 +37,25 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
   const page = recordMap.block[Object.keys(recordMap.block)[0]]
     .value as Block & { type: 'page' }
 
+  const collectionId = page.parent_id
+  const collection = recordMap.collection[collectionId]?.value
+
+  // Hide all properties of database pages
+  if (collection) {
+    const propertiesNames = new Set(Object.keys(collection.schema))
+    propertiesNames.delete('title')
+
+    collection.format.property_visibility = [...propertiesNames].map((p) => ({
+      property: p,
+      visibility: 'hide'
+    }))
+  }
+
   const filesToDownload = [
     ...sideBar.map((item) => {
       if (item.icon.type === 'file') {
         const { url } = item.icon.file
         const id = getImageIdFromUrl(url)
-        item.icon.file.url = '/images/' + id
 
         return { url, id }
       }
@@ -86,11 +99,9 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
     ))
   ].filter((x) => x)
 
-  console.log(filesToDownload)
-
   await Promise.all(
     filesToDownload.map(({ url, id }) => {
-      return downloadImage(url, './public/images/' + id)
+      return uploadImageToS3(url, id)
     })
   )
 

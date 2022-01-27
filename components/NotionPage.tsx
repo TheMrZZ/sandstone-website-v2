@@ -161,6 +161,11 @@ export const NotionPage: React.FC<types.PageProps> = ({
         <meta name='twitter:title' content={title} />
         <meta property='twitter:domain' content={site.domain} />
 
+        <meta
+          name='keywords'
+          content='sandstone Minecraft datapack data pack vanilla content creation preprocessor transpiler'
+        />
+
         {config.twitter && (
           <meta name='twitter:creator' content={`@${config.twitter}`} />
         )}

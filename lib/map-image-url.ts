@@ -28,7 +28,7 @@ export const mapNotionImageUrl = (
     url.startsWith('https://www.notion.so') ||
     url.includes('amazonaws.com')
   ) {
-    const path = '/images/' + getImageIdFromUrl(url)
+    const path = 'https://images.sandstone.dev/' + getImageIdFromUrl(url)
 
     return path
   }
