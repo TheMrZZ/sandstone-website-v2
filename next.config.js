@@ -6,7 +6,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   images: {
-    domains: ['pbs.twimg.com', 's3.us-west-2.amazonaws.com', 'www.notion.so']
+    domains: ['pbs.twimg.com', 's3.us-west-2.amazonaws.com', 'www.notion.so'],
+    formats: ['image/avif', 'image/webp'],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

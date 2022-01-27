@@ -118,9 +118,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
     block
   )
 
-  const socialDescription =
-    getPageDescription(block, recordMap) ?? config.description
-
   let comments: React.ReactNode = null
   let pageAside: React.ReactChild = null
 
@@ -146,6 +143,33 @@ export const NotionPage: React.FC<types.PageProps> = ({
     pageAside = <PageSocial />
   }
 
+  const collectionId = block.parent_id
+  const collection = recordMap.collection[collectionId]?.value
+
+  const schema = collection?.schema
+  let keywordOptionName: string | null = null
+  let descriptionOptionName: string | null = null
+
+  if (schema) {
+    for (const [key, value] of Object.entries(schema)) {
+      if (value.name === 'meta_keywords') {
+        keywordOptionName = key
+      }
+      if (value.name === 'meta_description') {
+        descriptionOptionName = key
+      }
+    }
+  }
+
+  const keywords: string[] =
+    block.properties[keywordOptionName]?.[0]?.[0]?.split(',') ?? []
+
+  const description: string | undefined =
+    block.properties[descriptionOptionName]?.[0]?.[0]
+
+  const socialDescription =
+    description ?? getPageDescription(block, recordMap) ?? config.description
+
   return (
     <>
       <PageHead site={site} />
@@ -159,8 +183,21 @@ export const NotionPage: React.FC<types.PageProps> = ({
 
         <meta
           name='keywords'
-          content='sandstone Minecraft datapack data pack vanilla content creation preprocessor transpiler'
+          content={[
+            'sandstone',
+            'Minecraft',
+            'datapack',
+            'data pack',
+            'vanilla',
+            'content',
+            'creation',
+            'preprocessor',
+            'transpiler',
+            ...keywords
+          ].join(' ')}
         />
+
+        {description ? <meta name='description' content={description} /> : null}
 
         {config.twitter && (
           <meta name='twitter:creator' content={`@${config.twitter}`} />
