@@ -96,9 +96,11 @@ export const SideBar: React.FC<{
 }> = ({ pageId, darkMode, sideBar }) => {
   const categories = [
     ...new Set(
-      sideBar.map((item) => {
-        return item.properties.Category.select.name
-      })
+      sideBar
+        .map((item) => {
+          return item.properties.Category?.select?.name
+        })
+        .filter((x) => x) // Remove pages without categories - we don't want to show them in the sidebar
     )
   ].sort()
 

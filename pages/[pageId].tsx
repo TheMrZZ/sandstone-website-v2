@@ -1,8 +1,8 @@
 import React from 'react'
 import { config } from 'lib/config'
-import { getSiteMaps } from 'lib/get-site-maps'
 import { resolveNotionPage } from 'lib/resolve-notion-page'
 import { NotionPage } from 'components'
+import { fetchDatabase } from 'lib/notion'
 
 export const getStaticProps = async (context) => {
   const rawPageId = context.params.pageId as string
@@ -39,16 +39,17 @@ export async function getStaticPaths() {
     }
   }
 
-  const siteMaps = await getSiteMaps()
+  const database = await fetchDatabase(config.pagesDatabaseId)
+  database[0].properties.Page.title.toString().toLowerCase()
 
   const ret = {
-    paths: siteMaps.flatMap((siteMap) =>
-      Object.keys(siteMap.canonicalPageMap).map((pageId) => ({
-        params: {
-          pageId
-        }
-      }))
-    ),
+    paths: database.map((page) => ({
+      params: {
+        pageId: page.properties.Page.title[0].plain_text
+          .toLowerCase()
+          .replace(/ /g, '-')
+      }
+    })),
     // paths: [],
     fallback: 'blocking'
   }
