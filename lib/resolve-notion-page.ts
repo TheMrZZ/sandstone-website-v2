@@ -56,7 +56,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
       if (item.icon.type === 'file') {
         const { url } = item.icon.file
         const id = getImageIdFromUrl(url)
-
+        console.log('Sidebar:', url)
         return { url, id }
       }
       return undefined
@@ -82,6 +82,15 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
       Object.values(recordMap.block).flatMap(async ({ value }) => {
         if (value?.type === 'image') {
           const url = value.format.display_source
+
+          if (
+            !(
+              url.startsWith('https://www.notion.so') ||
+              url.includes('amazonaws.com')
+            )
+          ) {
+            return
+          }
 
           const { signedUrls } = await notion.getSignedFileUrls([
             {

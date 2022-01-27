@@ -55,10 +55,6 @@ import styles from './styles.module.css'
 //   { ssr: false }
 // )
 
-const Equation = dynamic(() =>
-  import('react-notion-x').then((notion) => notion.Equation)
-)
-
 const Modal = dynamic(
   () => import('react-notion-x').then((notion) => notion.Modal),
   { ssr: false }
@@ -274,7 +270,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
               collection: Collection,
               collectionRow: CollectionRow,
               modal: Modal,
-              equation: Equation,
               image: Image
             }}
             recordMap={recordMap}
