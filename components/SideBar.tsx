@@ -25,7 +25,7 @@ function createItem({
       href={`/${to.toLowerCase().replace(/ /g, '-')}${
         config.isDev ? '-' + uuidToId(id) : ''
       }`}
-      key={id}
+      key={id + level}
     >
       <a
         className={cs(

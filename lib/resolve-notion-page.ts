@@ -56,7 +56,6 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
       if (item.icon.type === 'file') {
         const { url } = item.icon.file
         const id = getImageIdFromUrl(url)
-        console.log('Sidebar:', url)
         return { url, id }
       }
       return undefined
