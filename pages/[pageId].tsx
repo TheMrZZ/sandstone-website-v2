@@ -47,7 +47,7 @@ export async function getStaticPaths() {
       params: {
         pageId: page.properties.Page.title[0].plain_text
           .toLowerCase()
-          .replace(/ /g, '-')
+          .replace(/[ /]+/g, '-')
       }
     })),
     // paths: [],

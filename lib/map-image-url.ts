@@ -1,10 +1,6 @@
-import { Block } from 'notion-types'
 import { config } from './config'
 
-export const mapNotionImageUrl = (
-  url: string,
-  block: Block | { parent_table: string; id: string }
-) => {
+export const mapNotionImageUrl = (url: string) => {
   if (!url) {
     return null
   }

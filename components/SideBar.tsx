@@ -6,6 +6,7 @@ import { cs } from 'react-notion-x'
 import { DarkMode } from 'use-dark-mode'
 import Link from 'next/link'
 import Image from 'next/image'
+import { mapNotionImageUrl } from 'lib/map-image-url'
 
 function createItem({
   id,
@@ -22,7 +23,7 @@ function createItem({
 }) {
   return (
     <Link
-      href={`/${to.toLowerCase().replace(/ /g, '-')}${
+      href={`/${to.toLowerCase().replace(/[ /]+/g, '-')}${
         config.isDev ? '-' + uuidToId(id) : ''
       }`}
       key={id + level}
@@ -58,8 +59,7 @@ function textWithIcon(
     | null
     | { type: 'emoji'; emoji: string }
     | { type: 'file'; file: { url: string } },
-  text: string,
-  id: string
+  text: string
 ) {
   if (!icon) {
     return text
@@ -69,6 +69,8 @@ function textWithIcon(
     return `${icon.emoji} ${text}`
   }
 
+  const url = mapNotionImageUrl(icon.file.url)
+
   return (
     <span
       style={{
@@ -76,7 +78,7 @@ function textWithIcon(
         alignItems: 'center'
       }}
     >
-      <Image src={icon.file.url} width={20} height={20} />
+      <Image src={url} width={20} height={20} />
       <span
         style={{
           height: '100%',
@@ -148,8 +150,7 @@ export const SideBar: React.FC<{
                 level: 1,
                 text: textWithIcon(
                   item.icon,
-                  item.properties.Page.title[0].plain_text,
-                  item.id
+                  item.properties.Page.title[0].plain_text
                 ),
                 to: item.properties.Page.title[0].plain_text
               })
