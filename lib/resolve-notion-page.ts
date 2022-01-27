@@ -45,8 +45,6 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
     const propertiesNames = new Set(Object.keys(collection.schema))
     propertiesNames.delete('title')
 
-    console.log('SCHEMA', page.properties)
-
     collection.format.property_visibility = [...propertiesNames].map((p) => ({
       property: p,
       visibility: 'hide'

@@ -106,7 +106,7 @@ export const SideBar: React.FC<{
 
   const pagesByCategory = categories.reduce((acc, category) => {
     acc[category] = sideBar.filter(
-      (item) => item.properties.Category.select.name === category
+      (item) => item.properties.Category?.select?.name === category
     )
     return acc
   }, {} as { [key: string]: SideBarItems })
