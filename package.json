@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap --config next-sitemap.conf.js",
     "start": "next start",
     "deploy": "vercel --prod",
     "deps": "run-s deps:*",
@@ -62,6 +63,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.28.0",
+    "next-sitemap": "^2.0.7",
     "npm-run-all": "^4.1.5",
     "null-loader": "^4.0.1",
     "prettier": "^2.5.1",
