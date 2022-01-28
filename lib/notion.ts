@@ -35,7 +35,7 @@ export async function fetchDatabase(databaseId: string): Promise<SideBarItems> {
       page_size: 100,
       start_cursor: cursor,
       filter: {
-        property: 'Name',
+        property: 'Page',
         title: {
           is_not_empty: true
         }
