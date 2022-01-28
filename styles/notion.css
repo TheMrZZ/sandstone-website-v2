@@ -370,3 +370,16 @@ pre[class*=language-]:after, pre[class*=language-]:before {
     flex-direction: row-reverse;
   }
 }
+
+.notion-toggle {
+  width: 100%;
+}
+
+span.notion-page-title img.notion-page-title-icon.notion-page-icon {
+  margin-bottom: 0.4em;
+}
+
+.notion-aside-table-of-contents {
+  max-height: 100%;
+  height: 100%;
+}
