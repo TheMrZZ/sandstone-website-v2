@@ -34,6 +34,12 @@ export async function fetchDatabase(databaseId: string): Promise<SideBarItems> {
       database_id: databaseId,
       page_size: 100,
       start_cursor: cursor,
+      filter: {
+        property: 'Name',
+        title: {
+          is_not_empty: true
+        }
+      },
       sorts: [
         {
           property: 'Category',
