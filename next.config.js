@@ -8,6 +8,7 @@ module.exports = withBundleAnalyzer({
   images: {
     domains: ['pbs.twimg.com', 's3.us-west-2.amazonaws.com', 'www.notion.so', 'images.sandstone.dev'],
     formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 31536000,
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
