@@ -58,6 +58,8 @@ class Config {
 
   defaultPageCover: string | null = getSiteConfig('defaultPageCover', null)
 
+  defaultSocialImage: string | null = getSiteConfig('defaultSocialImage', null)
+
   defaultPageCoverPosition: number = getSiteConfig(
     'defaultPageCoverPosition',
     0.5
@@ -101,8 +103,8 @@ class Config {
 
   fathomConfig = this.fathomId
     ? {
-      excludedDomains: ['localhost', 'localhost:3000']
-    }
+        excludedDomains: ['localhost', 'localhost:3000']
+      }
     : undefined
 
   defaultEnvValueForPreviewImageSupport =

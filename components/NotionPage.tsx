@@ -114,7 +114,9 @@ export const NotionPage: React.FC<types.PageProps> = ({
   const minTableOfContentsItems = 0
 
   const socialImage = mapNotionImageUrl(
-    (block as PageBlock).format?.page_cover || config.defaultPageCover
+    (block as PageBlock).format?.page_cover ||
+      config.defaultPageCover ||
+      config.defaultSocialImage
   )
 
   let comments: React.ReactNode = null

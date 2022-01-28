@@ -19,7 +19,8 @@ module.exports = {
   description: 'Sandstone is a next-generation framework for Minecraft.',
   socialImageTitle: 'Sandstone',
   socialImageSubtitle: 'Build content for Minecraft, and share it with the world.',
-
+  defaultSocialImage: '/logo.png',
+  
   // social usernames (optional)
   github: 'TheMrZZ',
 
