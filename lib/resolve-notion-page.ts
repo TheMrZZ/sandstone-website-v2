@@ -53,7 +53,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
 
   const filesToDownload = [
     ...sideBar.map((item) => {
-      if (item.icon.type === 'file') {
+      if (item?.icon?.type === 'file') {
         const { url } = item.icon.file
         const id = getImageIdFromUrl(url)
         return { url, id }
