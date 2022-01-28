@@ -93,7 +93,8 @@ export async function uploadImageToS3(url: string, filepath: string) {
         Key: filepath,
         // Content of the new object.
         Body: passthrough,
-        ACL: 'public-read'
+        ACL: 'public-read',
+        CacheControl: 'public, max-age=31536000, immutable;'
       })
       .then(() => {
         resolve(filepath)
