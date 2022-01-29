@@ -6,7 +6,7 @@ import { cs } from 'react-notion-x'
 import { DarkMode } from 'use-dark-mode'
 import Link from 'next/link'
 import Image from 'next/image'
-import { mapNotionImageUrl } from 'lib/map-image-url'
+import { getPageUrl, mapNotionImageUrl } from 'lib/map-image-url'
 
 function createItem({
   id,
@@ -78,7 +78,7 @@ function textWithIcon(
         alignItems: 'center'
       }}
     >
-      <Image src={url} width={20} height={20} />
+      <Image src={url} width={20} height={20} alt={text} />
       <span
         style={{
           height: '100%',
@@ -140,8 +140,7 @@ export const SideBar: React.FC<{
               pageId: '',
               level: 0,
               text: category.slice(4),
-              to: pagesByCategory[category][0].properties.Page.title[0]
-                .plain_text
+              to: getPageUrl(pagesByCategory[category][0])
             }),
             ...pagesByCategory[category].map((item) => {
               return createItem({
@@ -152,7 +151,7 @@ export const SideBar: React.FC<{
                   item.icon,
                   item.properties.Page.title[0].plain_text
                 ),
-                to: item.properties.Page.title[0].plain_text
+                to: getPageUrl(item)
               })
             })
           ]
