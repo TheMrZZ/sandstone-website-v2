@@ -11,12 +11,12 @@ const cspHashOf = (text) => {
 
 export default class MyDocument extends Document {
   render() {
-    let csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src 'self' ${cspHashOf(
+    let csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src cgi.sandstone.dev 'self' ${cspHashOf(
       NextScript.getInlineScriptSource(this.props)
-    )} https://static.cloudflareinsights.com`
+    )}`
     if (process.env.NODE_ENV !== 'production') {
       // In development mode, we need unsafe-eval for fast refresh
-      csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src 'self' 'unsafe-eval' https://static.cloudflareinsights.com`
+      csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src cgi.sandstone.dev 'self' 'unsafe-eval'`
     }
 
     return (
@@ -60,6 +60,14 @@ export default class MyDocument extends Document {
             <Main />
 
             <NextScript />
+
+            {process.env.NODE_ENV === 'production' ? (
+              <script
+                defer
+                src='/api/cgi'
+                data-cf-beacon='{"token": "413abc9d06bf48dbb66601382651e5fd"}'
+              ></script>
+            ) : null}
           </body>
         </Html>
       </IconContext.Provider>
