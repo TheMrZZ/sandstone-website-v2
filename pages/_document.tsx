@@ -13,10 +13,10 @@ export default class MyDocument extends Document {
   render() {
     let csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src 'self' ${cspHashOf(
       NextScript.getInlineScriptSource(this.props)
-    )}`
+    )} https://static.cloudflareinsights.com`
     if (process.env.NODE_ENV !== 'production') {
       // In development mode, we need unsafe-eval for fast refresh
-      csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src 'self' 'unsafe-eval'`
+      csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src 'self' 'unsafe-eval' https://static.cloudflareinsights.com`
     }
 
     return (
