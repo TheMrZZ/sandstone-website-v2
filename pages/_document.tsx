@@ -11,12 +11,12 @@ const cspHashOf = (text) => {
 
 export default class MyDocument extends Document {
   render() {
-    let csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src cgi.sandstone.dev 'self' ${cspHashOf(
+    let csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src *.cloudflareinsights.com 'self' ${cspHashOf(
       NextScript.getInlineScriptSource(this.props)
     )}`
     if (process.env.NODE_ENV !== 'production') {
       // In development mode, we need unsafe-eval for fast refresh
-      csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src cgi.sandstone.dev 'self' 'unsafe-eval'`
+      csp = `default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src *.cloudflareinsights.com 'self' 'unsafe-eval'`
     }
 
     return (
