@@ -1,4 +1,6 @@
+import { uuidToId } from 'notion-utils'
 import { config } from './config'
+import { SideBarItems } from './types'
 
 export const mapNotionImageUrl = (url: string) => {
   if (!url) {
@@ -64,4 +66,14 @@ export const isValidUrl = (url: string) => {
   } catch (err) {
     return false
   }
+}
+
+export function getPageUrl(page: SideBarItems[0]) {
+  const id = page.id
+  const title = page.properties.Page.title[0].plain_text
+
+  return (
+    title.toLowerCase().replace(/[ /]+/g, '-') +
+    (config.isDev ? '-' + uuidToId(id) : '')
+  )
 }

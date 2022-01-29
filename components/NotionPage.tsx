@@ -65,7 +65,8 @@ export const NotionPage: React.FC<types.PageProps> = ({
   recordMap,
   error,
   pageId,
-  sideBar
+  sideBar,
+  metaTitle
 }) => {
   const router = useRouter()
   const lite = useSearchParam('lite')
@@ -92,7 +93,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
     return <Page404 site={site} pageId={pageId} error={error} />
   }
 
-  const title = getBlockTitle(block, recordMap) || site.name
+  const title = metaTitle || getBlockTitle(block, recordMap) || site.name
 
   if (!config.isServer) {
     // add important objects to the window global for easy debugging

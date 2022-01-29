@@ -3,19 +3,12 @@ import { config } from 'lib/config'
 import { resolveNotionPage } from 'lib/resolve-notion-page'
 import { NotionPage } from 'components'
 import { fetchDatabase } from 'lib/notion'
+import { getPageUrl } from 'lib/map-image-url'
 
 export const getStaticProps = async (context) => {
   const rawPageId = context.params.pageId as string
 
   try {
-    if (rawPageId === 'sitemap.xml' || rawPageId === 'robots.txt') {
-      return {
-        redirect: {
-          destination: `/api/${rawPageId}`
-        }
-      }
-    }
-
     const props = await resolveNotionPage(config.domain, rawPageId)
 
     return {
@@ -40,21 +33,16 @@ export async function getStaticPaths() {
   }
 
   const database = await fetchDatabase(config.pagesDatabaseId)
-  database[0].properties.Page.title.toString().toLowerCase()
 
   const ret = {
     paths: database.map((page) => ({
       params: {
-        pageId: page.properties.Page.title[0].plain_text
-          .toLowerCase()
-          .replace(/[ /]+/g, '-')
+        pageId: getPageUrl(page)
       }
     })),
-    // paths: [],
     fallback: 'blocking'
   }
 
-  console.log(ret.paths)
   return ret
 }
 

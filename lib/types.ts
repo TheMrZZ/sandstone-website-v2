@@ -18,6 +18,7 @@ export interface PageProps {
   pageId?: string
   error?: PageError
   sideBar?: SideBarItems
+  metaTitle?: string
 }
 
 export type SideBarItems = {

@@ -1,38 +1,23 @@
 import { Block } from 'notion-types'
 import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
-import { getSiteMaps } from './get-site-maps'
-import { getImageIdFromUrl, isValidUrl } from './map-image-url'
+import { getImageIdFromUrl, getPageUrl, isValidUrl } from './map-image-url'
 import { uploadImageToS3, fetchDatabase, notion } from './notion'
 
-const { pageUrlAdditions, pageUrlOverrides } = config
-
-async function getPageId(rawPageId: string | undefined) {
-  if (rawPageId && rawPageId !== 'index') {
-    const pageId =
-      pageUrlOverrides[rawPageId] ??
-      pageUrlAdditions[rawPageId] ??
-      (await getSiteMaps())[0]?.canonicalPageMap[rawPageId]
-
-    if (pageId) {
-      return pageId
-    }
-
-    throw new Error(`Could not find pageId for ${rawPageId}`)
-  }
-
-  return config.rootNotionPageId
-}
-
-export async function resolveNotionPage(domain: string, rawPageId?: string) {
+export async function resolveNotionPage(domain: string, pageUrl?: string) {
   const site = getSiteForDomain(domain)
 
-  const pageId = await getPageId(rawPageId)
+  const database = await fetchDatabase(site.pagesDatabaseId)
 
-  const [recordMap, sideBar] = await Promise.all([
-    notion.getPage(pageId),
-    fetchDatabase(site.pagesDatabaseId)
-  ])
+  const pageId = pageUrl
+    ? database.find((page) => getPageUrl(page) === pageUrl)?.id
+    : config.rootNotionPageId
+
+  if (!pageId) {
+    throw new Error('Failed to find the page corresponding to ' + pageUrl)
+  }
+
+  const recordMap = await notion.getPage(pageId)
 
   const page = recordMap.block[Object.keys(recordMap.block)[0]]
     .value as Block & { type: 'page' }
@@ -52,7 +37,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
   }
 
   const filesToDownload = [
-    ...sideBar.map((item) => {
+    ...database.map((item) => {
       if (item?.icon?.type === 'file') {
         const { url } = item.icon.file
         const id = getImageIdFromUrl(url)
@@ -113,5 +98,5 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
     })
   )
 
-  return { site, recordMap, pageId, sideBar }
+  return { site, recordMap, pageId, sideBar: database }
 }

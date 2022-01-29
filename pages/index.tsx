@@ -21,5 +21,10 @@ export const getStaticProps = async () => {
 }
 
 export default function NotionDomainPage(props) {
-  return <NotionPage {...props} />
+  return (
+    <NotionPage
+      {...props}
+      metaTitle='Sandstone | Next Generation Framework for Minecraft'
+    />
+  )
 }
