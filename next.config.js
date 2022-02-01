@@ -16,6 +16,8 @@ module.exports = withBundleAnalyzer({
     ignoreDuringBuilds: true,
   },
 
+  trailingSlash: true,
+
   webpack(config, { isServer }) {
     if (!isServer) {
       // Ensure "katex", the equation module, is not included in the client bundle

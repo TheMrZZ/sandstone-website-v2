@@ -28,11 +28,11 @@ export const getCanonicalPageUrl =
     const pageUuid = parsePageId(pageId, { uuid: true })
 
     if (uuidToId(pageId) === site.rootNotionPageId) {
-      return `https://${site.domain}`
+      return `https://${site.domain}/`
     } else {
       return `https://${site.domain}/${getCanonicalPageId(pageUuid, recordMap, {
         uuid
-      })}`
+      })}/`
     }
   }
 
