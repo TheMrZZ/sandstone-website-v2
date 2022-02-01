@@ -72,7 +72,7 @@ function textWithIcon(
         alignItems: 'center'
       }}
     >
-      <Image src={url} width={20} height={20} alt={text} />
+      <Image src={url} width={20} height={20} alt={text} layout='fixed' />
       <span
         style={{
           height: '100%',
