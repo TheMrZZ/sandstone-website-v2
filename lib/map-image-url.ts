@@ -1,4 +1,3 @@
-import { uuidToId } from 'notion-utils'
 import { config } from './config'
 import { SideBarItems } from './types'
 
@@ -68,12 +67,11 @@ export const isValidUrl = (url: string) => {
   }
 }
 
-export function getPageUrl(page: SideBarItems[0]) {
-  const id = page.id
+export function pageToName(page: SideBarItems[0]) {
   const title = page.properties.Page.title[0].plain_text
+  return title.toLowerCase().replace(/[ /]+/g, '-')
+}
 
-  return (
-    title.toLowerCase().replace(/[ /]+/g, '-') +
-    (config.isDev ? '-' + uuidToId(id) : '')
-  )
+export function getPageUrl(page: SideBarItems[0]) {
+  return '/' + pageToName(page) + '/'
 }

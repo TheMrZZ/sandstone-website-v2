@@ -1,6 +1,5 @@
 import { SideBarItems } from 'lib/types'
 import { uuidToId } from 'notion-utils'
-import { config } from 'lib/config'
 import React from 'react'
 import { cs } from 'react-notion-x'
 import { DarkMode } from 'use-dark-mode'
@@ -22,12 +21,7 @@ function createItem({
   to: string
 }) {
   return (
-    <Link
-      href={`/${to.toLowerCase().replace(/[ /]+/g, '-')}${
-        config.isDev ? '-' + uuidToId(id) : ''
-      }`}
-      key={id + level}
-    >
+    <Link href={to} key={id + level}>
       <a
         className={cs(
           'notion-table-of-contents-item',

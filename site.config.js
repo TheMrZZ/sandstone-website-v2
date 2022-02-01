@@ -15,6 +15,8 @@ module.exports = {
   domain: 'www.sandstone.dev',
   author: 'TheMrZZ',
 
+  includeNotionIdInUrls: false,
+
   // open graph metadata (optional)
   description: 'Sandstone is a next-generation framework for Minecraft.',
   socialImageTitle: 'Sandstone',

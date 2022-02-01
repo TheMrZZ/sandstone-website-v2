@@ -49,7 +49,7 @@ export const Header: React.FC<{
           </a>
         </Link>
 
-        <Link href='/introduction'>
+        <Link href='/introduction/'>
           <a>Documentation</a>
         </Link>
       </div>

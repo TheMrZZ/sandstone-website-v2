@@ -38,6 +38,7 @@ export async function getStaticPaths() {
   const ret = {
     paths: database.map((page) => ({
       params: {
+        // Remove the prefix!
         pageId: getPageUrl(page)
       }
     })),
@@ -47,8 +48,13 @@ export async function getStaticPaths() {
   return ret
 }
 
-export default function NotionDomainDynamicPage(props) {
-  const realProps = decompress(props.props)
+export default function NotionDomainDynamicPage({ props }) {
+  // For some reasons (??), sometimes during development 'props' will be undefined.
+  if (props) {
+    const realProps = decompress(props)
 
-  return <NotionPage {...realProps} />
+    return <NotionPage {...realProps} />
+  }
+
+  return null
 }

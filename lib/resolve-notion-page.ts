@@ -1,22 +1,21 @@
 import { Block } from 'notion-types'
 import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
-import { getImageIdFromUrl, getPageUrl, isValidUrl } from './map-image-url'
+import { getImageIdFromUrl, isValidUrl, pageToName } from './map-image-url'
 import { uploadImageToS3, fetchDatabase, notion } from './notion'
-import { uuidToId } from 'notion-utils'
 import { compress } from 'compress-json'
 
-export async function resolveNotionPage(domain: string, pageUrl?: string) {
+export async function resolveNotionPage(domain: string, pageName?: string) {
   const site = getSiteForDomain(domain)
 
   const database = await fetchDatabase(site.pagesDatabaseId)
 
-  const pageId = pageUrl
-    ? database.find((page) => getPageUrl(page) === pageUrl)?.id
+  const pageId = pageName
+    ? database.find((page) => pageToName(page) === pageName)?.id
     : config.rootNotionPageId
 
   if (!pageId) {
-    throw new Error('Failed to find the page corresponding to ' + pageUrl)
+    throw new Error('Failed to find the page corresponding to ' + pageName)
   }
 
   const recordMap = await notion.getPage(pageId)
