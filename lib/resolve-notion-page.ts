@@ -100,35 +100,6 @@ export async function resolveNotionPage(domain: string, pageUrl?: string) {
     })
   )
 
-  // Clean the record map
-  Object.values(recordMap.block).forEach(({ value }) => {
-    if (value.type === 'page' && uuidToId(value.id) !== pageId) {
-      value.content = []
-      value.file_ids = []
-      delete value.format.page_cover
-    }
-
-    delete (value as any)?.permissions
-    delete (value as any)?.format?.collection_pointer
-    delete (value as any)?.format?.copied_from_pointer
-    delete value?.properties?.source
-  })
-
-  // Clean the sidebar
-  Object.values(database).forEach(({ properties }) => {
-    const p = properties as any
-    p.meta_keywords?.multi_select.forEach((x) => {
-      delete x.id
-      delete x.color
-    })
-    delete p.meta_keywords?.color
-
-    p.meta_description?.rich_text.forEach((x) => {
-      delete x.annotation
-      delete x.text
-    })
-  })
-
   return {
     props: compress({
       site,
