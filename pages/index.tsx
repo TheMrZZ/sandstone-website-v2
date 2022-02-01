@@ -2,7 +2,7 @@ import React from 'react'
 import { config } from 'lib/config'
 import { resolveNotionPage } from 'lib/resolve-notion-page'
 import { NotionPage } from 'components'
-import { decompress } from 'lib/decompress'
+import { decompress } from 'compress-json'
 
 export const getStaticProps = async () => {
   try {
@@ -22,9 +22,7 @@ export const getStaticProps = async () => {
 }
 
 export default function NotionDomainPage(props) {
-  console.time('Time to decompress')
   const realProps = decompress(props.props)
-  console.timeEnd('Time to decompress')
 
   return (
     <NotionPage

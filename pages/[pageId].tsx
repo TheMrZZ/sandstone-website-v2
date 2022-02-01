@@ -4,7 +4,7 @@ import { resolveNotionPage } from 'lib/resolve-notion-page'
 import { NotionPage } from 'components'
 import { fetchDatabase } from 'lib/notion'
 import { getPageUrl } from 'lib/map-image-url'
-import { decompress } from 'lib/decompress'
+import { decompress } from 'compress-json'
 
 export const getStaticProps = async (context) => {
   const rawPageId = context.params.pageId as string
@@ -48,9 +48,7 @@ export async function getStaticPaths() {
 }
 
 export default function NotionDomainDynamicPage(props) {
-  console.time('Time to decompress')
   const realProps = decompress(props.props)
-  console.timeEnd('Time to decompress')
 
   return <NotionPage {...realProps} />
 }
