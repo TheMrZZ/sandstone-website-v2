@@ -12,7 +12,7 @@ module.exports = {
 
   // basic site info (required)
   name: 'Sandstone',
-  domain: 'sandstone.dev',
+  domain: 'www.sandstone.dev',
   author: 'TheMrZZ',
 
   // open graph metadata (optional)
