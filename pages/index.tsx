@@ -2,6 +2,7 @@ import React from 'react'
 import { config } from 'lib/config'
 import { resolveNotionPage } from 'lib/resolve-notion-page'
 import { NotionPage } from 'components'
+import { decompress } from 'lib/decompress'
 
 export const getStaticProps = async () => {
   try {
@@ -21,9 +22,13 @@ export const getStaticProps = async () => {
 }
 
 export default function NotionDomainPage(props) {
+  console.time('Time to decompress')
+  const realProps = decompress(props.props)
+  console.timeEnd('Time to decompress')
+
   return (
     <NotionPage
-      {...props}
+      {...realProps}
       metaTitle='Sandstone | Next Generation Framework for Minecraft'
     />
   )

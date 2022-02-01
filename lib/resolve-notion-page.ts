@@ -3,6 +3,22 @@ import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
 import { getImageIdFromUrl, getPageUrl, isValidUrl } from './map-image-url'
 import { uploadImageToS3, fetchDatabase, notion } from './notion'
+import { zlibSync, strFromU8, strToU8 } from 'fflate'
+
+function compress(obj: any) {
+  const original = JSON.stringify(obj)
+  const s = strToU8(original)
+
+  const size = s.length
+  const encoded = strFromU8(
+    zlibSync(s, {
+      level: 6
+    }),
+    true
+  )
+
+  return { encoded, size }
+}
 
 export async function resolveNotionPage(domain: string, pageUrl?: string) {
   const site = getSiteForDomain(domain)
@@ -98,5 +114,12 @@ export async function resolveNotionPage(domain: string, pageUrl?: string) {
     })
   )
 
-  return { site, recordMap, pageId, sideBar: database }
+  return {
+    props: compress({
+      site,
+      recordMap: recordMap,
+      pageId,
+      sideBar: database
+    })
+  }
 }
