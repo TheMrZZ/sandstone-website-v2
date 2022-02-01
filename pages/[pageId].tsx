@@ -3,7 +3,7 @@ import { config } from 'lib/config'
 import { resolveNotionPage } from 'lib/resolve-notion-page'
 import { NotionPage } from 'components'
 import { fetchDatabase } from 'lib/notion'
-import { getPageUrl, pageToName } from 'lib/map-image-url'
+import { pageToName } from 'lib/map-image-url'
 import { decompress } from 'compress-json'
 
 export const getStaticProps = async (context) => {

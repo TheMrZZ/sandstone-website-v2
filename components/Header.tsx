@@ -38,7 +38,13 @@ export const Header: React.FC<{
               paddingRight: '20px'
             }}
           >
-            <Image width={40} height={40} src={Logo} alt={'Sandstone logo'} />
+            <Image
+              width={40}
+              height={40}
+              src={Logo}
+              alt={'Sandstone logo'}
+              layout='fixed'
+            />
             <span
               style={{
                 marginLeft: 10
