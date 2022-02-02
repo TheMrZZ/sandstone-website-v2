@@ -1,10 +1,11 @@
 // const isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV
+const withPreact = require('next-plugin-preact')
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 })
 
-module.exports = withBundleAnalyzer({
+module.exports = withPreact(withBundleAnalyzer({
   images: {
     domains: ['pbs.twimg.com', 's3.us-west-2.amazonaws.com', 'www.notion.so', 'images.sandstone.dev'],
     formats: ['image/avif', 'image/webp'],
@@ -22,7 +23,7 @@ module.exports = withBundleAnalyzer({
     if (!isServer) {
       // Ensure "katex", the equation module, is not included in the client bundle
       config.module.rules.push({
-        test: /katex/,
+        test: /(katex|snap.svg-cjs|scheduler)/,
         use: "null-loader",
       })
     }
@@ -47,4 +48,4 @@ module.exports = withBundleAnalyzer({
       }
     ]
   }
-})
+}))

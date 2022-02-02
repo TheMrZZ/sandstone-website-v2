@@ -14,7 +14,6 @@ import { PageBlock } from 'notion-types'
 import { getBlockTitle } from 'notion-utils'
 import * as React from 'react'
 import BodyClassName from 'react-body-classname'
-import { slide as BurgerMenu } from 'react-burger-menu'
 import { FaTimes } from 'react-icons/fa'
 // core notion renderer
 import { Code, Collection, CollectionRow, NotionRenderer } from 'react-notion-x'
@@ -32,6 +31,8 @@ import { PageSocial } from './PageSocial'
 import { ReactUtterances } from './ReactUtterances'
 import { SideBar } from './SideBar'
 import styles from './styles.module.css'
+
+import type { slide as SlideType } from 'react-burger-menu'
 
 // const Code = dynamic(() =>
 //   import('react-notion-x').then((notion) => notion.Code)
@@ -54,6 +55,10 @@ import styles from './styles.module.css'
 //   () => import('react-notion-x').then((notion) => notion.Pdf),
 //   { ssr: false }
 // )
+
+const BurgerMenu = dynamic(() =>
+  import('react-burger-menu').then((burger) => burger.slide)
+) as typeof SlideType
 
 const Modal = dynamic(
   () => import('react-notion-x').then((notion) => notion.Modal),
