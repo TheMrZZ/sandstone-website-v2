@@ -6,10 +6,9 @@ import { SearchParams, SearchResults } from 'notion-types'
 import { SideBarItems } from './types'
 import { S3 } from '@aws-sdk/client-s3'
 import { PassThrough } from 'stream'
+import { config } from './config'
 
-export const notion = new NotionAPI({
-  apiBaseUrl: process.env.NOTION_API_BASE_URL
-})
+export const notion = new NotionAPI()
 
 export const notionOfficialClient = new Client({
   auth: process.env.NOTION_TOKEN
@@ -60,6 +59,19 @@ export async function fetchDatabase(databaseId: string): Promise<SideBarItems> {
   }
 
   return result
+}
+
+export const getDatabase: typeof fetchDatabase = async () => {
+  // On preview/development, always refresh the database
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.PREVIEW === 'true'
+  ) {
+    return fetchDatabase(config.pagesDatabaseId)
+  }
+
+  const data = await fs.promises.readFile('./database.json')
+  return JSON.parse(data.toString())
 }
 
 export async function search(params: SearchParams): Promise<SearchResults> {

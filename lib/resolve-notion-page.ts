@@ -2,13 +2,13 @@ import { Block } from 'notion-types'
 import { config } from './config'
 import { getSiteForDomain } from './get-site-for-domain'
 import { getImageIdFromUrl, isValidUrl, pageToName } from './map-image-url'
-import { uploadImageToS3, fetchDatabase, notion } from './notion'
+import { uploadImageToS3, getDatabase, notion } from './notion'
 import { compress } from 'compress-json'
 
 export async function resolveNotionPage(domain: string, pageName?: string) {
   const site = getSiteForDomain(domain)
 
-  const database = await fetchDatabase(site.pagesDatabaseId)
+  const database = await getDatabase(site.pagesDatabaseId)
 
   const pageId = pageName
     ? database.find((page) => pageToName(page) === pageName)?.id
@@ -37,6 +37,31 @@ export async function resolveNotionPage(domain: string, pageName?: string) {
     }))
   }
 
+  const imageRawURLs = Object.values(recordMap.block)
+    .flatMap(({ value }) => {
+      if (value?.type === 'image') {
+        const url = value.format.display_source
+
+        if (
+          !(
+            url.startsWith('https://www.notion.so') ||
+            url.includes('amazonaws.com')
+          )
+        ) {
+          return undefined
+        }
+
+        return {
+          url,
+          permissionRecord: { table: 'block', id: value.id },
+          id: value.id
+        }
+      }
+
+      return undefined
+    })
+    .filter((x) => x)
+
   const filesToDownload = [
     ...database.map((item) => {
       if (item?.icon?.type === 'file') {
@@ -60,44 +85,21 @@ export async function resolveNotionPage(domain: string, pageName?: string) {
           url,
           id: getImageIdFromUrl(page.format.page_icon!)
         }))
-      : []),
-
-    // Fetch all images
-    ...(await Promise.all(
-      Object.values(recordMap.block).flatMap(async ({ value }) => {
-        if (value?.type === 'image') {
-          const url = value.format.display_source
-
-          if (
-            !(
-              url.startsWith('https://www.notion.so') ||
-              url.includes('amazonaws.com')
-            )
-          ) {
-            return
-          }
-
-          const { signedUrls } = await notion.getSignedFileUrls([
-            {
-              url,
-              permissionRecord: { table: 'block', id: value.id }
-            }
-          ])
-
-          return signedUrls.map((signedUrl) => ({
-            url: signedUrl,
-            id: getImageIdFromUrl(url)
-          }))[0]
-        }
-      })
-    ))
+      : [])
   ].filter((x) => x)
 
-  await Promise.all(
-    filesToDownload.map(({ url, id }) => {
+  await Promise.all([
+    ...filesToDownload.map(({ url, id }) => {
       return uploadImageToS3(url, id)
-    })
-  )
+    }),
+    notion
+      .getSignedFileUrls(imageRawURLs)
+      .then(({ signedUrls }) =>
+        Promise.all(
+          signedUrls.map((url, i) => uploadImageToS3(url, imageRawURLs[i].id))
+        )
+      )
+  ])
 
   return {
     props: compress({

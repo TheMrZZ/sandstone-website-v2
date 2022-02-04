@@ -2,7 +2,7 @@ import React from 'react'
 import { config } from 'lib/config'
 import { resolveNotionPage } from 'lib/resolve-notion-page'
 import { NotionPage } from 'components'
-import { fetchDatabase } from 'lib/notion'
+import { getDatabase } from 'lib/notion'
 import { pageToName } from 'lib/map-image-url'
 import { decompress } from 'compress-json'
 
@@ -33,7 +33,7 @@ export async function getStaticPaths() {
     }
   }
 
-  const database = await fetchDatabase(config.pagesDatabaseId)
+  const database = await getDatabase(config.pagesDatabaseId)
 
   const ret = {
     paths: database.map((page) => ({

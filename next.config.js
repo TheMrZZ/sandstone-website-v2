@@ -16,6 +16,7 @@ module.exports = withPreact(withBundleAnalyzer({
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  swcMinify: true,
 
   trailingSlash: true,
 
